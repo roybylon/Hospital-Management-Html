@@ -1,0 +1,48 @@
+
+name: Unity Hospital Management Web APP
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build Docker image and Deploy to Azure VM
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          file: Dockerfile
+          context: .
+          push: true
+          tags: compiler/kod-Hospital-app:${{ github.sha }}
+
+      - name: SSH into Azure VM and deploy Docker container
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.AZURE_HOST }}
+          username: ${{ secrets.AZURE_USERNAME }}
+          key: ${{ secrets.AZURE_KEY }}
+          port: ${{ secrets.PORT }}
+          script: |
+            sudo apt -y update
+            sudo apt -y install apt-transport-https ca-certificates curl software-properties-common
+            curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key -y add -
+            sudo add-apt-repository -y "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
+            apt-cache policy docker-ce
+            sudo apt -y install docker-ce
+            docker stop kod || true
+            docker rm kod || true
+            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/kod:${{ github.sha }}
+            sudo docker run -d --name kod -p 8080:80 ${{ secrets.DOCKERHUB_USERNAME }}/kod:${{ github.sha }}
