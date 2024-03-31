@@ -3,7 +3,7 @@ name: Unity Hospital Management Web APP
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   build:
