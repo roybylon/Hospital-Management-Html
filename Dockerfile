@@ -2,7 +2,7 @@ FROM ubuntu:22.04
 
 RUN apt-get update && apt-get install -y nginx 
 
-RUN systemctl enable nginx
+RUN service enable nginx
 
 #COPY . /var/www/html
 COPY . /var/www/html
