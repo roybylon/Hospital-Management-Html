@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y \
 RUN systemctl enable nginx
 
 #COPY . /var/www/html
-COPY src/. /var/www/html
+COPY . /var/www/html
 
 EXPOSE 80
 
