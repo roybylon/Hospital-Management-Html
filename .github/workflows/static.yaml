@@ -26,7 +26,7 @@ jobs:
           file: Dockerfile
           context: .
           push: true
-          tags: roybylon/kod-hospital-app:${{ github.sha }}
+          tags: roybylon/kod-hospital-app-hospital-app:${{ github.sha }}
 
       - name: SSH into Azure VM and deploy Docker container
         uses: appleboy/ssh-action@v1.0.3
@@ -42,5 +42,5 @@ jobs:
             sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
             apt-cache policy docker-ce
             sudo apt -y install docker-ce
-            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/kod:${{ github.sha }}
-            sudo docker run -d --name kod -p 8080:80 ${{ secrets.DOCKERHUB_USERNAME }}/kod:${{ github.sha }}
+            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/kod-hospital-app:${{ github.sha }}
+            sudo docker run -d --name kod-hospital-app -p 8080:80 ${{ secrets.DOCKERHUB_USERNAME }}/kod-hospital-app:${{ github.sha }}
