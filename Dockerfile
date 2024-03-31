@@ -5,7 +5,7 @@ FROM nginx:1.23.1-alpine
 #     nodejs \
 #     npm
 
-RUN systemctl enable nginx
+# RUN systemctl enable nginx
 
 #COPY . /var/www/html
 COPY . /usr/share/nginx/html
