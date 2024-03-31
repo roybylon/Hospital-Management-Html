@@ -1,7 +1,6 @@
 FROM ubuntu:22.04
 
-RUN apt-get update && apt-get install -y \
-    nginx 
+RUN apt-get update && apt-get install -y nginx 
 
 RUN systemctl enable nginx
 
