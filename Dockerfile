@@ -1,11 +1,14 @@
 FROM ubuntu:22.04
 
-RUN apt-get update && apt-get install -y nginx 
+RUN apt-get update && apt-get install -y \
+    nginx \
+    nodejs \
+    npm
 
-RUN service enable nginx
+RUN systemctl enable nginx
 
 #COPY . /var/www/html
-COPY . /var/www/html
+COPY src/. /var/www/html
 
 EXPOSE 80
 
