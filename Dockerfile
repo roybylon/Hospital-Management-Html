@@ -1,9 +1,9 @@
-FROM ubuntu:22.04
+FROM nginx:1.23.1-alpine
 
-RUN apt-get update && apt-get install -y \
-    nginx \
-    nodejs \
-    npm
+# RUN apt-get update && apt-get install -y \
+#     nginx \
+#     nodejs \
+#     npm
 
 RUN systemctl enable nginx
 

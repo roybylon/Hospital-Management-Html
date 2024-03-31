@@ -42,7 +42,5 @@ jobs:
             sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
             apt-cache policy docker-ce
             sudo apt -y install docker-ce
-            docker stop kod || true
-            docker rm kod || true
             sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/kod:${{ github.sha }}
             sudo docker run -d --name kod -p 8080:80 ${{ secrets.DOCKERHUB_USERNAME }}/kod:${{ github.sha }}
